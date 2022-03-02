@@ -1,0 +1,105 @@
+Create Heaps using Priority Queue.
+
+********************************************************SOLUTION*************************************************************************************
+
+
+
+#include<stdio.h>
+#include<conio.h>
+void swap(int *,int *);
+void heapify(int );
+void buildHeap();
+void printHeap();
+void extract_max();
+
+int Heap[50];
+int heap_size=-1;
+
+void extract_max()
+{
+	int max_ele=Heap[0];
+	printf("\n Node with maximum priority : %d:",max_ele);
+	Heap[0]=Heap[heap_size-1];
+	heap_size=heap_size-1;
+	buildHeap();
+}
+  
+void swap(int *p1, int *p2)
+{
+    int temp1=*p2;
+    *p2=*p1;
+    *p1=temp1;
+    
+}
+void heapify(int i)
+{
+    int largest = i; 
+    int left = 2 * i + 1; 
+    int right = 2 * i + 2; 
+  
+   
+    if (left < heap_size && Heap[left] > Heap[largest])
+        largest = left;
+  
+  
+    if (right < heap_size && Heap[right] > Heap[largest])
+        largest = right;
+  
+    
+    if (largest != i) {
+        swap(&Heap[i], &Heap[largest]);
+        heapify(largest);
+    }
+}
+  
+
+void buildHeap()
+{
+    int startIdx = (heap_size / 2) - 1;
+  
+   
+    for (int i = startIdx; i >= 0; i--) {
+        heapify(i);
+    }
+}
+  
+
+void printHeap()
+{
+	for (int i = 0; i < heap_size; ++i)
+        printf("%d ",Heap[i]);
+}
+void  changePriority(int index,int priority)
+{
+	int oldPrio=Heap[index];
+	Heap[index]=priority;
+	buildHeap();
+		
+}
+  
+int main()
+{
+	int n;
+	printf("Enter the no of element you want to insert in heap ");
+	scanf("%d",&n);
+	heap_size=n;
+	for(int i=0;i<heap_size;i++)
+		scanf("%d",&Heap[i]);
+ 
+    buildHeap();
+    printf("Array representation of Heap is:\n");
+    printHeap();
+	extract_max();
+	printf("\nPriority queue after extracting maximum :");
+	printHeap(); 
+	int index,priority;
+	printf("\n Enter the index in which you want to change the priority");
+	scanf("%d",&index);
+	printf("\n Enter priority");
+	scanf("%d",&priority);
+	changePriority(index,priority);
+	printf("Priority queue after priority change :");
+	printHeap(); 
+  
+    return 0;
+}
