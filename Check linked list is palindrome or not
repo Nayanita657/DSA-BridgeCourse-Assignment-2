@@ -1,0 +1,208 @@
+Tell whether the linked list is palindrome or not.
+
+*****************************************************************SOLUTION************************************************************************
+
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+void createnode();
+void find_middle();
+void displaynode();
+
+struct node{
+    int data;
+    struct node *next;
+};
+typedef struct node node;
+node *head=NULL;
+
+void displaying_splitnode(node *head)
+{
+    
+    printf("\n-----------------------------\n");
+    node *temp;
+    temp=head;
+    while(temp->next!=NULL)
+    {
+        printf("%d-> ",temp->data);
+        temp=temp->next;
+    }
+    printf("%d",temp->data);
+}
+void createnode()
+{
+    node *temp;
+    temp=(node *)malloc(sizeof(int));
+    if(temp==NULL)
+        exit(0);
+    printf("\nEnter data element:");
+    scanf("%d",&temp->data);
+    temp->next=NULL;
+    if(head==NULL)
+        head=temp;
+    else
+    {
+        node *p=head;
+        while(p->next!=NULL)
+        {
+            p=p->next;
+        }
+        p->next=temp;
+        p=NULL;
+        temp=NULL;
+    }
+}
+
+
+
+node *reverseList(node *head_p2)
+{
+    node *current,*prev,*next;
+    current=head_p2;
+    prev=NULL;
+    while(current!=NULL)
+    {
+       next=current->next;
+       current->next=prev;
+       prev=current;
+       current=next;
+    }
+    head_p2=prev;
+    return head_p2;
+}
+
+void compare_list(node *head_p1,node *head_p2)
+{
+    node *p1=head_p1;
+    node *p2=head_p2;
+    while(p1->next!=NULL)
+    {
+        if(p1->data == p2->data)
+        {
+            p1=p1->next;
+            p2=p2->next;
+        }
+        else
+        {
+            printf("\n Not palindrom");
+            return;
+        }
+    }
+    printf("\n palindrom");
+}
+
+void check_palindrom(node *head_p1,node *head_p2)
+{
+    head_p2=reverseList(head_p2);
+    printf("\ndisplay the reversed 2nd split");
+    displaying_splitnode(head_p2);
+    compare_list(head_p1,head_p2);
+}
+
+void find_middle()
+{
+    
+    node *slow=head;
+    node *fast=head;
+    node *head_p1;
+    node *head_p2;
+    while(fast!=NULL && fast->next!=NULL && fast->next->next!=NULL)
+    {
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    if(fast->next==NULL)
+        // checking odd length palindrome ;
+        {
+            // 1st split 
+            node *p1=head;
+            head_p1=p1;
+            while(p1->next!=slow)
+                p1=p1->next;
+            p1->next=NULL;
+            
+            printf("\n Displaying 1st split");
+            displaying_splitnode(head_p1);
+            
+            //2nd split 
+            node *p2=slow->next;
+            head_p2=p2;
+            while(p2->next!=NULL)
+            p2=p2->next;
+        
+            printf("\n Displaying 2nd split");
+            displaying_splitnode(head_p2); 
+            
+            check_palindrom(head_p1,head_p2);
+        }
+        
+    else
+        // checking even length palindrome
+        {
+            node *temp=slow->next;
+            
+            // 1st split
+            node *p1=head;
+            head_p1=p1;
+            while(p1!=slow)
+                p1=p1->next;
+            p1->next=NULL;
+            
+            printf("\n Displaying 1st split");
+            displaying_splitnode(head_p1);
+            
+            //2nd split
+            node *p2=temp;
+            head_p2=p2;
+            while(p2->next!=NULL)
+            p2=p2->next;
+        
+            printf("\n Displaying 2nd split");
+            displaying_splitnode(head_p2);
+            
+            check_palindrom(head_p1,head_p2);
+           
+        }
+    printf("\n middle point of list :%d",slow->data);    
+}
+
+
+
+
+void displaynode()
+{
+    
+    printf("\n-----------------------------\n");
+    node *temp;
+    temp=head;
+    while(temp->next!=NULL)
+    {
+        printf("%d->",temp->data);
+        temp=temp->next;
+    }
+    printf("%d",temp->data);
+}
+
+void main()
+{
+    int total_node;
+    printf("\nEnter the no of nodes to be inserted:");
+    scanf("%d",&total_node);
+    for(int i=0;i<total_node;i++)
+    {
+        createnode();
+    }
+    printf("\n Displaying the linked list");
+    displaynode();
+    
+    //finding middle of linked list
+    
+    find_middle();
+    
+    //reversing the linked list
+    
+    //head=reverseList(head);
+    //printf("\n Displaying the reversed linked list");
+    //displaynode();
+    
+}
