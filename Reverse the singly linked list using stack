@@ -1,0 +1,128 @@
+There is a singly linked list given to you. Reverse the Linked list using stack.
+
+**********************************************************************SOLUTION*****************************************************************
+
+
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+#define MAX 5
+
+//creating stack
+struct stack{
+    int arr[MAX];
+    int top;
+}st;
+
+//creating linked list
+struct node{
+    int data;
+    struct node *next;
+};
+typedef struct node node;
+node *head=NULL;
+
+void push(int value)
+{
+    st.top++;
+    st.arr[st.top]=value;
+}
+
+int pop()
+{
+    
+    int item;
+    item=st.arr[st.top];
+    st.top--;
+    return item;
+}
+
+void reverse(int total_node)
+{
+    int item;
+    node *p=head;
+    
+    //inserting data in stack;
+    while(p->next!=NULL)
+    {
+        push(p->data);
+        p=p->next;
+    }
+    push(p->data);
+    
+    //poping data from stack
+    node *q=head;
+    while(q->next!=NULL)
+    {
+        item=pop();
+        q->data=item;
+        q=q->next;
+    }
+    item=pop();
+    q->data=item;
+}
+
+void createnode()
+{
+    node *temp;
+    temp=(node *)malloc(sizeof(int));
+    if(temp==NULL)
+        exit(0);
+    printf("\nEnter data element:");
+    scanf("%d",&temp->data);
+    temp->next=NULL;
+    if(head==NULL)
+        head=temp;
+    else
+    {
+        node *p=head;
+        while(p->next!=NULL)
+        {
+            p=p->next;
+        }
+        p->next=temp;
+        p=NULL;
+        temp=NULL;
+    }
+    
+}
+
+void displaynode()
+{
+    
+    node *temp;
+    temp=head;
+    while(temp->next!=NULL)
+    {
+        printf("%d-> ",temp->data);
+        temp=temp->next;
+    }
+    printf("%d",temp->data);
+    
+    
+}
+
+int main()
+{
+    st.top=-1;
+    int total_node;
+    printf("\nEnter the no of nodes to be inserted:");
+    scanf("%d",&total_node);
+    for(int i=0;i<total_node;i++)
+    {
+        createnode();
+    }
+    printf("\n Displaying the linked list");
+    printf("\n-----------------------------\n");
+    displaynode();
+    
+    //reversing linked list
+    
+    reverse(total_node);
+    
+    printf("\n reversed linked list ");
+    printf("\n-------------------------\n");
+    displaynode();
+    
+    return 0;
+}
