@@ -1,0 +1,88 @@
+There is a singly linked list given to you. Find if the Loop exists in the Linked list or not
+and also find the point where the loop is happening if the loop is present.
+
+************************************************************SOLUTION*****************************************************************************
+
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+
+struct node{
+    int data;
+    struct node *next;
+};
+typedef struct node node;
+
+void displayList(node *head)
+{
+    node *p=head;
+    while(p->next!=NULL)
+    {
+        printf("%d->",p->data);
+        p=p->next;
+    }
+    printf("%d",p->data);
+}
+
+void DetectLoop(node *head)
+{
+    node *slow,*fast;
+    slow=head;
+    fast=head;
+    while(fast!=NULL && fast->next!=NULL && fast->next->next!=NULL)
+    {
+        slow=slow->next;
+        fast=fast->next->next;
+        if(slow==fast) //loop exist
+        {
+            slow=head;
+            while(slow!=fast)
+            {
+                slow=slow->next;
+                fast=fast->next;
+            }
+            printf("\n\n\t cycle exist at %d ",slow->data);
+            exit(0);
+        }
+    }
+    printf("\n\n\t No cycle");
+}
+
+
+int main()
+{
+    node *head1,*head2,*temp;
+
+    
+    temp=(node*)malloc(sizeof(node));
+    temp->data=10;
+    temp->next='\0';
+    head1=temp;
+    
+    temp=(node*)malloc(sizeof(node));
+    temp->data=20;
+    temp->next='\0';
+    head1->next=temp;
+    
+    temp=(node*)malloc(sizeof(node));
+    temp->data=30;
+    temp->next='\0';
+    head1->next->next=temp;
+    
+    temp=(node*)malloc(sizeof(node));
+    temp->data=40;
+    temp->next='\0';
+    head1->next->next->next=temp;
+    
+    temp=(node*)malloc(sizeof(node));
+    temp->data=50;
+    //temp->next='\0';
+    temp->next=head1->next->next;
+    head1->next->next->next->next=temp;
+
+    DetectLoop(head1);
+    
+    //printf("\nPrinting element in list :");
+    //displayList(head1);
+
+}
