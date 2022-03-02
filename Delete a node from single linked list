@@ -1,0 +1,90 @@
+You are given a node pointer to the singly linked list, you need to delete that node value,
+such that you don’t have access to its parent node and also that node is not a tail node.
+
+*************************************************************SOLUTION**************************************************************************
+
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+void createnode();
+
+struct node{
+    int data;
+    struct node *next;
+};
+typedef struct node node;
+node *head=NULL;
+
+
+void createnode()
+{
+    node *temp;
+    temp=(node *)malloc(sizeof(int));
+    if(temp==NULL)
+        exit(0);
+    printf("\nEnter data element:");
+    scanf("%d",&temp->data);
+    temp->next=NULL;
+    if(head==NULL)
+        head=temp;
+    else
+    {
+        node *p=head;
+        while(p->next!=NULL)
+        {
+            p=p->next;
+        }
+        p->next=temp;
+        p=NULL;
+        temp=NULL;
+    }
+    
+}
+
+void displaynode()
+{
+    printf("\n Displaying the linked list");
+    printf("\n-----------------------------\n");
+    node *temp;
+    temp=head;
+    while(temp->next!=NULL)
+    {
+        printf("%d-> ",temp->data);
+        temp=temp->next;
+    }
+    printf("%d",temp->data);
+}
+
+void DeleteNode(node *delnode)
+{
+    node *t;
+    t=delnode->next;
+    delnode->data=t->data;
+    delnode->next=t->next;
+    free(t);
+    
+}
+
+void main()
+{
+    int total_node,delNode;
+    printf("\nEnter the no of nodes to be inserted:");
+    scanf("%d",&total_node);
+    for(int i=0;i<total_node;i++)
+    {
+        createnode();
+    }
+    displaynode();
+    
+    printf("\nEnter the node you want to delete");
+    scanf("%d",&delNode);
+    
+    node *q=head;
+    while(q->data!=delNode)
+        q=q->next;
+    DeleteNode(q);    
+    
+    printf("\n After delition the linked list is");
+    displaynode();
+    
+}
