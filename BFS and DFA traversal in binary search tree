@@ -1,0 +1,118 @@
+Perform BFS and DFS Traversal of BST created in Assignment 1. (DFS using recursion
+and Stack).
+
+*************************************************************SOLUTION*********************************************************************************
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+
+struct BSTree{
+    int data;
+    struct BSTree *left;
+    struct BSTree *right;
+};
+typedef struct BSTree node;
+
+node *Newnode(int item)
+{
+    node *temp=(node *)malloc(sizeof(node));
+    temp->data=item;
+    temp->left=NULL;
+    temp->right=NULL;
+    
+    return temp;
+}
+
+node *CreateNode(node *root,int item)
+{
+    if(root==NULL)
+    {
+        node *temp1=Newnode(item);
+        root=temp1;
+    }
+    else
+    {
+        if(root->data >= item)
+            root->left=CreateNode(root->left,item );
+        else
+            root->right=CreateNode(root->right,item);
+    }
+    return root;
+}
+
+void Inorder(node *root)
+{
+    if(root)
+    {
+        Inorder(root->left);
+        printf("%d ",root->data);
+        Inorder(root->right);
+    }
+    
+}
+
+int height(node *t)
+{
+    if(t==NULL)
+        return 0;
+    if(t->left==NULL && t->right==NULL)
+        return 0;
+    int l,r;
+    l=height(t->left);
+    r=height(t->right);
+    return (1+((l>r)?l:r));
+}
+
+void print_Level_nodes(node *r,int level)
+{
+    if(r==NULL)
+        return;
+    else if(level==0)
+        printf(" %d",r->data);
+        else
+        {
+            print_Level_nodes(r->left,level-1);
+            print_Level_nodes(r->right,level-1);
+        }
+}
+
+void printBFS(node *r)
+{
+    int h=height(r);
+    printf("\n BFS traversal of BST");
+    printf("\n ----------------------\n");
+    for(int i=0;i<=h;i++)
+        print_Level_nodes(r,i);
+}
+
+void printDFS(node *r)
+{
+    if(r)
+    {
+        printf("%d ",r->data);
+        printDFS(r->left);
+        printDFS(r->right);
+    }
+}
+
+void main()
+{
+    node *root=NULL;
+   
+    root=CreateNode(root,10);
+    root=CreateNode(root,2);
+    root=CreateNode(root,12);
+    root=CreateNode(root,1);
+    root=CreateNode(root,20);
+    root=CreateNode(root,15);
+    root=CreateNode(root,21);
+    
+    printf("\n\n\t Inorder of BST....\n");
+    Inorder(root);
+    printBFS(root);
+    printf("\n DFS traversal of BST");
+    printf("\n ----------------------\n");
+    printDFS(root);
+    
+}
