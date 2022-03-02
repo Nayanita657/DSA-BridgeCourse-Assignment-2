@@ -1,0 +1,133 @@
+Implement the Queue data structure using stack
+
+**************************************************************SOLUTION*********************************************************************
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+#define MAX 5
+
+void enqueue();
+void dequeue();
+void display();
+
+struct stack{
+    int arr[MAX];
+    int top;
+};
+
+typedef struct stack stack1;
+stack1 st1,st2; 
+
+void enqueue()
+{
+    int data;
+    if(st1.top==MAX-1)
+        printf("\n\n\t queue is overflow....");
+    else
+    {
+        printf("\n\n\t Enter data:");
+        scanf("%d",&data);
+        st1.top++;
+        st1.arr[st1.top]=data;
+        display();
+    }
+}
+
+void dequeue()
+{
+    if(st2.top == -1)
+    {
+        int item;
+        if(st1.top == -1)
+            printf("\n queue is empty");
+        else
+        {
+            // pushing element of stack1 to stack2
+            
+            while(st1.top != -1)
+            {
+                st2.top++;
+                item=st1.arr[st1.top];
+                st2.arr[st2.top]=item;
+                st1.top--;
+            }
+            
+            //poping element of stack2
+            int del_item;
+            del_item=st2.arr[st2.top];
+            st2.top--;
+            printf("\n\n\t The deleted element is- %d",del_item);
+            display();
+            
+        }
+    }
+    else
+    {
+            int del_item;
+            del_item=st2.arr[st2.top];
+            st2.top--;
+            printf("\n\n\t The deleted element is- %d",del_item);
+            display();
+    }
+    
+}
+
+void display()
+{
+    if(st2.top==-1)
+    {
+        if(st1.top==-1)
+        printf("\n\n\t The queue is empty");
+        else
+        {
+            printf("\n\n\t The elements are........");
+            for(int i=0;i<=st1.top;i++)
+            printf("%d ",st1.arr[i]);
+        }
+    }
+    else
+    {
+        // printing element of stack2 first then stack1
+        
+            printf("\n\n\t The elements are........");
+            for(int i=st2.top;i>=0;i--)
+            printf("%d ",st2.arr[i]);
+        
+        if(st1.top!=-1)
+        {
+            for(int i=0;i<=st1.top;i++)
+            printf("%d ",st1.arr[i]);
+        }
+    }
+    
+}
+
+int main()
+{
+    st1.top=-1; //Initially stack1 is empty
+    st2.top=-1; //Initially stack2 is empty
+    int choice;
+    do{
+        printf("\n\n\t 1.insert an element in the queue;");
+        printf("\n\n\t 2.delete an element from the queue");
+        printf("\n\n\t 3.Display the element of the queue");
+        printf("\n\n\t 4.Exit from the program");
+        printf("\n\n\t Enter your choice bewteen (1-4):-");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:enqueue();
+                  break;
+            case 2:dequeue();
+                  break;
+            case 3:display();
+                  break;
+            case 4:exit(0);
+                  break;
+            default:printf("\n\n\t Wrong entry try again");      
+                  break;
+        }
+        
+    }while(choice!=4);
+    
+}
