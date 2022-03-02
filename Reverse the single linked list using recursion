@@ -1,0 +1,109 @@
+There is a singly linked list given to you. Reverse the Linked list using recursion.
+
+***********************************************************SOLUTION***********************************************************************************
+
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+void createnode();
+void displaynode();
+
+struct node{
+    int data;
+    struct node *next;
+};
+typedef struct node node;
+node *head=NULL;
+
+
+void createnode()
+{
+    node *temp;
+    temp=(node *)malloc(sizeof(int));
+    if(temp==NULL)
+        exit(0);
+    printf("\nEnter data element:");
+    scanf("%d",&temp->data);
+    temp->next=NULL;
+    if(head==NULL)
+        head=temp;
+    else
+    {
+        node *p=head;
+        while(p->next!=NULL)
+        {
+            p=p->next;
+        }
+        p->next=temp;
+        p=NULL;
+        temp=NULL;
+    }
+    
+}
+
+void displaynode()
+{
+    
+    node *temp;
+    temp=head;
+    while(temp->next!=NULL)
+    {
+        printf("%d-> ",temp->data);
+        temp=temp->next;
+    }
+    printf("%d",temp->data);
+    
+    
+}
+
+node *reverseList(node *head1)
+{
+    
+    node *p,*q;
+    if(head1==NULL)
+        return 0;
+    p=head1;
+    q=p->next;
+    if(q==NULL)
+        return 0;
+    q=reverseList(q);
+    p->next->next=p;
+    p->next=NULL;
+    
+    return q;
+}
+
+node  *Find_Add_last_node()
+{
+    node *p=head;
+    while(p->next!=NULL)
+    {
+        p=p->next;
+    }
+    return p;
+}
+void main()
+{
+    int total_node;
+    printf("\nEnter the no of nodes to be inserted:");
+    scanf("%d",&total_node);
+    for(int i=0;i<total_node;i++)
+    {
+        createnode();
+    }
+    printf("\n Displaying the linked list");
+    printf("\n-----------------------------\n");
+    displaynode();
+    
+    //reverse of linked list
+    node *Add_last_node=Find_Add_last_node();
+    
+    node *reverse_head=reverseList(head);
+    if(!reverse_head)
+        head=Add_last_node;
+    
+    printf("\n REverse linked list ");
+    printf("\n --------------------\n");
+    displaynode();
+    
+}
